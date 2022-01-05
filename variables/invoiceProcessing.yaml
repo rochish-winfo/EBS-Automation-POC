@@ -1,0 +1,50 @@
+# use tab and colon to define key value pair
+
+DRIVER :
+  CHROME :   ..\Driver\chromedriver.exe
+  IE :  Driver\IEDriverServer.exe
+
+
+EBSINFO :
+  URL : http://winfo106.winfosolutions.com:8035/OA_HTML/AppsLocalLogin.jsp
+  USERNAME :  ap_clerk
+  PASSWORD :  apclerk12
+  USERFIELD : xpath=//*[@id="usernameField"]
+  PASSWORDFIELD : xpath=//*[@id="passwordField"]
+  LOGINBTN :  xpath=//button[text()="Log In"]
+  EXPANDBTN : xpath=//div[text()="Winfo AP Invoice Entry"]
+  INVOICEBTN : xpath=//div[text()="Invoices"]
+  FILENAME : frmservlet.jnlp
+  DOWNLOADPATH : Download
+  FILETYPE: jnlp
+  BROWSER:  Chrome
+
+
+EBSINFO_PRJ_CREATE :
+  URL : http://winfo106.winfosolutions.com:8035/OA_HTML/AppsLocalLogin.jsp
+  USERNAME :  operations
+  PASSWORD :  welcome
+  USERFIELD : xpath=//*[@id="usernameField"]
+  PASSWORDFIELD : xpath=//*[@id="passwordField"]
+  LOGINBTN :  xpath=//button[text()="Log In"]
+  EXPANDBTN : xpath=//div[text()="Project Billing Super User"]
+  INVOICEBTN : xpath=//div[text()="Projects"]
+  FILENAME : frmservlet.jnlp
+  DOWNLOADPATH : Download
+  FILETYPE: jnlp
+  BROWSER:  Chrome
+
+EBSINFO_CASH_REC_CREATE :
+  URL : http://winfo106.winfosolutions.com:8035/OA_HTML/AppsLocalLogin.jsp
+  USERNAME :  operations
+  PASSWORD :  welcome
+  USERFIELD : xpath=//*[@id="usernameField"]
+  PASSWORDFIELD : xpath=//*[@id="passwordField"]
+  LOGINBTN :  xpath=//button[text()="Log In"]
+  EXPANDBTN1 : xpath=//div[text()="Receivables, Vision Operations (USA)"]
+  EXPANDBTN2 : xpath=//ul[@id="Receivables,_Vision_Operations_(USA)Receivables_Command_Center_HomeContra_ChargingNotificationsCredit_ManagementiReceivables"]/li[19]/a
+  CLICK_RECEIPT: xpath=//ul[@id="Receivables,_Vision_Operations_(USA)Receivables_Command_Center_HomeContra_ChargingNotificationsCredit_ManagementiReceivables"]/li[19]/ul/li[3]/a
+  FILENAME : frmservlet.jnlp
+  DOWNLOADPATH : Download
+  FILETYPE: jnlp
+  BROWSER:  Chrome
