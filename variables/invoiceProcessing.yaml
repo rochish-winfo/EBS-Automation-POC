@@ -1,7 +1,7 @@
 # use tab and colon to define key value pair
 
 DRIVER :
-  CHROME :   ..\Driver\chromedriver.exe
+  CHROME :   Driver\chromedriver.exe
   IE :  Driver\IEDriverServer.exe
 
 

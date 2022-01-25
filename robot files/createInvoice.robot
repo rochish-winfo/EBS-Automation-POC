@@ -9,7 +9,7 @@ Library    RPA.JavaAccessBridge    ignore_callbacks=True    access_bridge_path=C
 Library    Process
 
 
-Variables    ../variables/invoiceProcessing.yaml
+Variables    ..\\variables\\invoiceProcessing.yaml
 
 
 *** Tasks ***
