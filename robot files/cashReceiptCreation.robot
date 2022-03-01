@@ -4,7 +4,7 @@ Library    RPA.Desktop
 Library    RPA.Desktop.Windows
 Library    RPA.Browser.Selenium
 Library    OperatingSystem
-Library    RPA.JavaAccessBridge    ignore_callbacks=True    access_bridge_path=C:\\EBS-Automation\\EBS Automation-POC\\Driver\\WindowsAccessBridge-64.dll
+Library    RPA.JavaAccessBridge    ignore_callbacks=True    access_bridge_path=C:\\Program Files\\Java\\jdk-15.0.2\\bin\\windowsaccessbridge-64.dll
 Library    Process
 
 

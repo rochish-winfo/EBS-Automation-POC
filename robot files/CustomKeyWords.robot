@@ -3,8 +3,13 @@
 Library    RPA.Browser.Selenium
 Library    RPA.Desktop
 Library    Process
-Library    RPA.JavaAccessBridge    ignore_callbacks=True    access_bridge_path=Driver\\WindowsAccessBridge-64.dll
+Library    RPA.JavaAccessBridge    ignore_callbacks=True    access_bridge_path=C:\\EBS-Automation\\EBS Automation-POC\\Driver\\WindowsAccessBridge-64.dll
 Library    RPA.Desktop.Windows
+Library    RPA.FileSystem
+
+Library    C:\\EBS-Automation\\EBS Automation-POC\\python\\fileRetrivation.py
+Library    C:\\EBS-Automation\\EBS Automation-POC\\python\\ociActions.py
+Library    OperatingSystem
 
 
 *** Keywords ***
@@ -22,7 +27,6 @@ Checking Line Table In GRN Creation
             RPA.Browser.Selenium.Input Text    xpath=//table[@id="ResultsTableRN:Content"]/tbody/tr[${rowNum}]/td[6]/input    ${amount}
         END
     END
-
 
 
 Insert Line No For PO Invoice
@@ -52,3 +56,49 @@ Navigating Responsibility in EBS
     RPA.JavaAccessBridge.Type Text    name|Find    ${locators}
     Sleep    5s
     RPA.Desktop.Press Keys    alt    f
+
+
+Capture And Upload Screenshot
+    [Arguments]    ${path}    ${index}
+    
+    ${getAllTheFiles}=    Get all files From path    ${path}   ${index} 
+    FOR    ${file}    IN    @{getAllTheFiles}
+        Log    ${path}\\${file}
+        Run Keyword and Ignore Error    Put Object To Cloud    ${path}\\${file}    ${file}
+    END
+    
+    ${state}=    RPA.FileSystem.Does Directory Exist    ${path}\\Result
+    
+    IF    "${state}" == "False"
+        OperatingSystem.Create Directory    ${path}\\Result
+    END
+        
+    ${filestate}=    RPA.FileSystem.Does File Exist    ${path}\\Result\\result.txt
+    
+    IF    "${filestate}" == "False"
+        RPA.FileSystem.Create File    ${path}\\Result\\result.txt
+    END
+
+    Run Keyword If Test Passed    RPA.FileSystem.Append To File    ${path}\\Result\\result.txt    content=status=pass
+    Run Keyword If Test Failed    RPA.FileSystem.Append To File    ${path}\\Result\\result.txt    content=status=fail
+
+    
+
+    # Run Keyword and Ignore Error    Put Object To Cloud    ${path}        
+
+Get and Save Element Value
+    [Arguments]    ${element}   ${path}   ${variable}
+    [Return]    ${Text}
+    ${Text}=    RPA.JavaAccessBridge.Get Element Text    role|text and name|${element}
+    OperatingSystem.Create Directory    ${path}\\Result
+    ${filestate}=    RPA.FileSystem.Does File Exist    ${path}\\Result\\result.txt
+    
+    IF    "${filestate}" == "False"
+        RPA.FileSystem.Create File    ${path}\\Result\\result.txt
+    END
+
+    RPA.FileSystem.Append To FIle     ${path}\\Result\\result.txt    content=${variable}=${Text},
+
+
+
+    

@@ -134,3 +134,8 @@ rpaenv/
 *.txt
 *.ext
 *.png
+ebsenv/
+oldenv/
+*.html
+.vscode/
+*.exe

@@ -26,3 +26,5 @@ index and len(elements) > (index + 1)   -->    index and len(elements) < (index 
                                             self.desktop.press_keys("ctrl","shift","right")
                                             self.desktop.press_keys("delete")"""
 
+(robot --pythonpath C:\GitHub\EBS-Automation-POC\Driver\remoteswinglibrary-2.3.0.jar)
+(robot -P .\rpaenv\Lib\site-packages\remoteswinglibrary-2.3.0.jar  '.\robot files\swingTest.robot')

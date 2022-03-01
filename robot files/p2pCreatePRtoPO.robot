@@ -2,7 +2,7 @@
 Library    RPA.Browser.Selenium
 Library    RPA.Desktop
 Library    Process
-Library    RPA.JavaAccessBridge    ignore_callbacks=True    access_bridge_path=C:\\Program Files\\Java\\jdk-15.0.2\\bin\\windowsaccessbridge-64.dll
+Library    RPA.JavaAccessBridge    ignore_callbacks=True    access_bridge_path=C:\\GitHub\\EBS-Automation-POC\\Driver\\WindowsAccessBridge-64.dll
 Library    RPA.Desktop.Windows
 
 Resource    CustomKeyWords.robot
@@ -35,22 +35,23 @@ Create Purchasing Requistion Summary
     RPA.Desktop.Press Keys    enter      
     Sleep    10s
     Run KeyWord and Ignore Error    Select Window    Security Warning
-    Run Keyword And Ignore Error    RPA.JavaAccessBridge.Click Element    role|check box   
+    Run Keyword And Ignore Error    RPA.JavaAccessBridge.Click Element    role:check box   
     Run Keyword And Ignore Error    RPA.JavaAccessBridge.Click Push Button    Run
     Sleep    10s
     Select Window    Oracle Applications - EBSVIS
     Application Refresh
-    RPA.JavaAccessBridge.Type Text    Requisition    16458
+    RPA.JavaAccessBridge.Click Push Button    Clear
+    RPA.JavaAccessBridge.Type Text    Requisition    16550
     RPA.JavaAccessBridge.Click Push Button    Find
     Sleep    5s
     Application Refresh
-    RPA.JavaAccessBridge.Click Element    role|check box
+    RPA.JavaAccessBridge.Click Element    role:check box
     RPA.JavaAccessBridge.Click Push Button    Automatic
     Sleep    5s
     Application Refresh
-    RPA.JavaAccessBridge.Type Text    Document    16458
+    RPA.JavaAccessBridge.Type Text    Document    16550
     RPA.JavaAccessBridge.Click Push Button    Create
-    Sleep    5s
+    Sleep    10s
     Application Refresh
     RPA.Desktop.Press Keys    ctrl    s
     RPA.Desktop.Press Keys    f4    #close all ebs winow
@@ -58,7 +59,7 @@ Create Purchasing Requistion Summary
     Sleep    5s
     RPA.Desktop.Press Keys    enter
     Sleep    5s
-    RPA.Desktop.Press Keys    ctrl    w
+    RPA.Desktop.Press Keys    tab
     RPA.Browser.Selenium.Click Element    xpath=//div[text()="Buyer Work Center"]
     RPA.Browser.Selenium.Click Element    xpath=(//div[text()="Orders"])[1]
     Wait For Condition    return document.readyState == "complete"

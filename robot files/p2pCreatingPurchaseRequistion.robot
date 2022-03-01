@@ -2,14 +2,15 @@
 Library    RPA.Browser.Selenium
 Library    RPA.Desktop
 Library    Process
-Library    RPA.JavaAccessBridge    ignore_callbacks=True    access_bridge_path=C:\\Program Files\\Java\\jdk-15.0.2\\bin\\windowsaccessbridge-64.dll
+Library    RPA.JavaAccessBridge    ignore_callbacks=True    access_bridge_path=C:\\GitHub\\EBS-Automation-POC\\Driver\\WindowsAccessBridge-64.dll
 Library    RPA.Desktop.Windows
 
 Resource    CustomKeyWords.robot
 
 *** Tasks ***
 Create Purchasing Requistion
-    [Setup]    Set Selenium Implicit Wait    10   
+    [Setup]    Set Selenium Implicit Wait    10
+    [TearDown]    Capture And Upload Screenshot    C:\\GitHub\\EBS-Automation-POC\\robot files
     ${chromeOptions} =    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
     ${prefs} =    Create Dictionary    download.prompt_for_download=${TRUE}
     Call Method    ${chromeOptions}    add_experimental_option    prefs    ${prefs}
@@ -28,9 +29,9 @@ Create Purchasing Requistion
     RPA.Browser.Selenium.Click Element    xpath=//div[text()='Requisitions']/following::div[text()='Requisitions'][2]
     Sleep    4s
     RPA.Desktop.Press Keys    enter  # Download The File
-    Sleep    10s
+    Sleep    15s
     RPA.Desktop.Press Keys    ctrl    j    #Go To Download Page
-    Sleep    4s
+    Sleep    8s
     RPA.Desktop.Take Screenshot    ${CURDIR}\\Screenshot\\Inovoice\\downloaded.png
     RPA.Desktop.Press Keys    tab
     RPA.Desktop.Press Keys    tab
@@ -44,17 +45,16 @@ Create Purchasing Requistion
     Application Refresh
     RPA.JavaAccessBridge.Type Text    name|Item    AS54888
     RPA.Desktop.Press Keys    down    #load the num
-    RPA.JavaAccessBridge.Type Text    name|Quantity    10
+    RPA.JavaAccessBridge.Type Text    name|Quantity    1
     RPA.Desktop.Press Keys    tab    #go to Price
-    RPA.JavaAccessBridge.Type Text    name|Price    100
+    RPA.JavaAccessBridge.Type Text    name|Price    10
     RPA.Desktop.Press Keys    tab    #go to Need By
-    RPA.JavaAccessBridge.Type Text    name|Need-By    31-JAN-2022
+    RPA.JavaAccessBridge.Type Text    name|Need-By    28-FEB-2022
     RPA.JavaAccessBridge.Type Text    name|Supplier     Advanced Network Devices
     RPA.JavaAccessBridge.Type Text    name|Site     FRESNO
     RPA.Desktop.Press Keys    ctrl    s
     Application Refresh
-    ${requisitionNum}=    RPA.JavaAccessBridge.Get Element Text    name|Number
-    Log    ${requisitionNum}
+    Get And Save Element Value    Number    C:\\GitHub\\EBS-Automation-POC\\robot files
     RPA.JavaAccessBridge.Click Push Button    Approve
     Application Refresh
     RPA.JavaAccessBridge.Click Push Button    OK
