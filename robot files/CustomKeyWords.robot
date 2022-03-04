@@ -3,12 +3,12 @@
 Library    RPA.Browser.Selenium
 Library    RPA.Desktop
 Library    Process
-Library    RPA.JavaAccessBridge    ignore_callbacks=True    access_bridge_path=C:\\EBS-Automation\\EBS Automation-POC\\Driver\\WindowsAccessBridge-64.dll
+Library    RPA.JavaAccessBridge    ignore_callbacks=True    access_bridge_path=C:\\GitHub\\EBS-Automation-POC\\Driver\\WindowsAccessBridge-64.dll
 Library    RPA.Desktop.Windows
 Library    RPA.FileSystem
 
-Library    C:\\EBS-Automation\\EBS Automation-POC\\python\\fileRetrivation.py
-Library    C:\\EBS-Automation\\EBS Automation-POC\\python\\ociActions.py
+Library    C:\\GitHub\\EBS-Automation-POC\\python\\fileRetrivation.py
+Library    C:\\GitHub\\EBS-Automation-POC\\python\\ociActions.py
 Library    OperatingSystem
 
 
@@ -62,6 +62,9 @@ Capture And Upload Screenshot
     [Arguments]    ${path}    ${index}
     
     ${getAllTheFiles}=    Get all files From path    ${path}   ${index} 
+
+    Run Keyword and Ignore Error    Move Dir    ${path}    ${index}
+
     FOR    ${file}    IN    @{getAllTheFiles}
         Log    ${path}\\${file}
         Run Keyword and Ignore Error    Put Object To Cloud    ${path}\\${file}    ${file}
@@ -99,6 +102,31 @@ Get and Save Element Value
 
     RPA.FileSystem.Append To FIle     ${path}\\Result\\result.txt    content=${variable}=${Text},
 
-
-
+Get Element Value
+    [Arguments]    ${element}   ${path}   ${variable}
+    [Return]    ${Text}
+    ${Text}=    RPA.Browser.Selenium.Get Text    ${element}
+    OperatingSystem.Create Directory    ${path}\\Result
+    ${filestate}=    RPA.FileSystem.Does File Exist    ${path}\\Result\\result.txt
     
+    IF    "${filestate}" == "False"
+        RPA.FileSystem.Create File    ${path}\\Result\\result.txt
+    END
+
+    RPA.FileSystem.Append To FIle     ${path}\\Result\\result.txt    content=${variable}=${Text.split()[-1]},
+
+Wait For Element Status For Change
+    [Arguments]    ${element}    ${path}
+    ${Text}=   RPA.JavaAccessBridge.Get Element Text    role|text and name|${element}
+    FOR    ${temp}    IN RANGE    1    100
+        Sleep    3s
+        ${text}=    RPA.JavaAccessBridge.Get Element Text    role|text and name|${element}
+        Exit For Loop IF    "${text}" != "${Text}"
+        Exit For Loop IF    "${text}" == "Completed"
+        Exit For Loop IF    "${text}" != "Running"
+        RPA.Desktop.Press Keys    alt    R
+        Application Refresh
+    END
+
+    Log    ${element} status changed to ${text} from ${Text}
+    Get and Save Element Value    ${element}    ${path}    ${element}

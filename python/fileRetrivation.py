@@ -2,7 +2,8 @@ import glob
 import os
 import time
 from robot.api.deco import keyword
-from pathlib import Path
+import pathlib
+import shutil
 
 
 
@@ -25,3 +26,14 @@ def get_all_files_from_path(path, literal):
     return files
 
 # print(get_all_files_from_path("C:\\EBS-Automation\\WATS_Files\\screenshot\\ebs\\WATS\\P2PTestTemplate",4))
+
+@keyword
+def move_dir(path, literal):
+    toMove = 'C:\\WATS\\Screenshot\\WATS\\' + path.split('\\')[-1]
+    if not os.path.isdir(toMove):
+        pathlib.Path(toMove).mkdir(parents=True, exist_ok=True)
+    files = [file for file in os.listdir(path) if (file.lower().endswith('.jpg') and file.upper().startswith(str(literal))) ]
+    files.sort(key=lambda f : int(f.split('_')[1]))
+    for file in files:
+        shutil.copy2(path + '\\' + file, toMove)
+        
