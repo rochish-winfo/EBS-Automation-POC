@@ -92,6 +92,7 @@ Capture And Upload Screenshot
 Get and Save Element Value
     [Arguments]    ${element}   ${path}   ${variable}
     [Return]    ${Text}
+    Application Refresh
     ${Text}=    RPA.JavaAccessBridge.Get Element Text    role|text and name|${element}
     OperatingSystem.Create Directory    ${path}\\Result
     ${filestate}=    RPA.FileSystem.Does File Exist    ${path}\\Result\\result.txt
@@ -130,3 +131,37 @@ Wait For Element Status For Change
 
     Log    ${element} status changed to ${text} from ${Text}
     Get and Save Element Value    ${element}    ${path}    ${element}
+
+
+Ebs Type Text
+    [Arguments]    ${locator}    ${value}    ${index}=0
+    ${typed}=    Run Keyword And Return Status    RPA.JavaAccessBridge.Type Text    ${locator}    ${value}    ${index}    clear=True
+    IF    ${typed} == ${FALSE}
+        Application Refresh
+        RPA.JavaAccessBridge.Type Text    ${locator}    ${value}    ${index}    clear=True
+    END
+
+Ebs Click Button
+    [Arguments]    ${locator}
+    ${clicked}=    Run Keyword And Return Status    RPA.JavaAccessBridge.Click Push Button    ${locator}
+    IF    ${clicked} == ${FALSE}
+        Application Refresh
+        RPA.JavaAccessBridge.Click Push Button    ${locator}
+    END
+
+Ebs Click Element
+    [Arguments]    ${locator}    ${index}=0
+    ${clicked}=    Run Keyword And Return Status    RPA.JavaAccessBridge.Click Element    ${locator}    ${index}
+    IF    ${clicked} == ${FALSE}
+        Application Refresh
+        RPA.JavaAccessBridge.Click Element    ${locator}    ${index}
+    END
+
+
+Ebs Window 
+    [Arguments]    ${name}
+    ${clicked}=    Run Keyword And Return Status    Select Window    ${name}
+    IF    ${clicked} == ${FALSE}
+        Sleep    5s
+        Select Window    ${name}
+    END
