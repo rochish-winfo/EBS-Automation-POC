@@ -89,7 +89,8 @@ def take_screeshot_as_jpg(path):
 
         logger.info(f"Uploaded to {path_name} in oci") 
     except Exception as e :
-        raise  Exception(e," file upload failed")
+        # raise  Exception(e," file upload failed")
+        print(e,'upload failed') # just for testing
 
 
 #get xpath as per requirement for ebs
@@ -232,7 +233,7 @@ def ebsEnter():
     desktop.press_keys('enter')
 
 #ebs down
-def ebsDown():
+def ebsDownKey():
     desktop.press_keys('down')
 
 
@@ -344,12 +345,15 @@ def ebsSelectTab(xpath_param, input_value, path_to_screenhot, screenshot_file_na
 if __name__ == '__main__':
     try :
         _is_wait_cursor_complete()
-        path_to_screenhot ='C:\\GitHub\\EBS-Automation-POC\\Java_customization'
+        path_to_screenhot ='C:\\GitHub\\EBS-Automation-POC\\Java_customization\\'
         screenshot_file_name = '1.jpg'
         ebsSelectWindow("Oracle Applications - EBSVIS",path_to_screenhot, '1.jpg')
         ebsEnterTextVal('Item','AS54888')
+        ebsDownKey()
         ebsEnterTextVal('Quantity','10')
-        
+        ebsEnterTextVal('Price','10')
+        i
+
     except Exception as e :
         print("Execution Failed")
 
