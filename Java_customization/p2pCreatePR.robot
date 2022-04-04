@@ -1,23 +1,53 @@
 *** Settings ***
 Library    RPA.Desktop
-Library    customjab.py
-
+Library    customjavaaccessbridge.py
+Library    RPA.Browser.Selenium
 *** Tasks ***
 Create Purchasing Requisitions
-    customjab.Select Java Window    Oracle Applications - EBSVIS
-    customjab.Type Text    Item    AS54888
+    [Setup]    Set Selenium Implicit Wait    10
+    ${chromeOptions} =    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
+    ${prefs} =    Create Dictionary    download.prompt_for_download=${TRUE}
+    Call Method    ${chromeOptions}    add_experimental_option    prefs    ${prefs}
+    Call Method    ${chromeOptions}    add_argument    --start-maximized
+    Create Webdriver    Chrome    chrome_options=${chromeOptions}    executable_path=Driver\\chromedriver.exe
+    Go To    http://winfo106.winfosolutions.com:8035/OA_HTML/AppsLocalLogin.jsp
+    Wait For Condition    return document.readyState == "complete" && document.title == "Login"    200
+    Input Text    xpath=//*[@id="usernameField"]    gchockal
+    Input Password    xpath=//*[@id="passwordField"]    welcome123
+    Click Button When Visible    xpath=//button[text()="Log In"]
+    Wait For Condition    return document.readyState == "complete"
+    RPA.Browser.Selenium.Click Element    xpath=//div[text()="Purchasing, Vision Operations (USA)"]
+    Wait For Condition    return document.readyState == "complete"
+    RPA.Browser.Selenium.Click Element    xpath=(//div[text()="Requisitions"]/parent::a//img[@title])[1]
+    Wait For Condition    return document.readyState == "complete"
+    RPA.Browser.Selenium.Click Element    xpath=(//div[text()="Requisitions"]//following::div[text()="Requisitions"][2])
+    Sleep    8s
+    RPA.Desktop.Press Keys    enter
+    Sleep    15s
+    RPA.Desktop.Press Keys    ctrl    j
+    Sleep    10s
+    RPA.Desktop.Press Keys    tab
+    RPA.Desktop.Press Keys    tab
+    RPA.Desktop.Press Keys    enter
+    Sleep    10s
+    Run KeyWord and Ignore Error    Select Ebs Window    Security Warning
+    Run Keyword And Ignore Error    Ebs Click Check Box
+    Run Keyword And Ignore Error    Ebs Click Button    Run
+    Sleep    10s
+    Select Ebs Window    Oracle Applications - EBSVIS
+    Ebs Type Text    Item    AS54888
     RPA.Desktop.Press Keys    down
-    customjab.Type Text    Quantity    10
+    Ebs Type Text    Quantity    10
     RPA.Desktop.Press Keys    tab
-    customjab.Type Text    Price    100
+    Ebs Type Text    Price    100
     RPA.Desktop.Press Keys    tab
-    customjab.Type Text    Need-By    15-Mar-22
-    customjab.Type Text    Supplier    Advanced Network Devices
-    customjab.Type Text    Site    FRESNO
+    Ebs Type Text    Need-By    15-Mar-22
+    Ebs Type Text    Supplier    Advanced Network Devices
+    Ebs Type Text    Site    FRESNO
     RPA.Desktop.Press Keys    ctrl    s
-    ${Number}=    Get Element Text    Number    
-    customjab.Click Button    Approve
-    customjab.Click Button    OK
+    ${Number}=    Ebs Get Element Text    Number    
+    Ebs Click Button    Approve
+    Ebs Click Button    OK
     RPA.Desktop.Press Keys    f4
     Sleep    4s
     RPA.Desktop.Press Keys    alt    f4

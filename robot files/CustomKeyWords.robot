@@ -117,7 +117,7 @@ Get Element Value
     RPA.FileSystem.Append To FIle     ${path}\\Result\\result.txt    content=${variable}=${Text.split()[-1]},
 
 Wait For Element Status For Change
-    [Arguments]    ${element}    ${path}
+    [Arguments]    ${element}    #${path}
     ${Text}=   RPA.JavaAccessBridge.Get Element Text    role|text and name|${element}
     FOR    ${temp}    IN RANGE    1    100
         Sleep    3s
@@ -129,8 +129,8 @@ Wait For Element Status For Change
         Application Refresh
     END
 
-    Log    ${element} status changed to ${text} from ${Text}
-    Get and Save Element Value    ${element}    ${path}    ${element}
+    # Log    ${element} status changed to ${text} from ${Text}
+    # Get and Save Element Value    ${element}    ${path}    ${element}
 
 
 Ebs Type Text
@@ -158,10 +158,32 @@ Ebs Click Element
     END
 
 
-Ebs Window 
+Select Ebs Window 
     [Arguments]    ${name}
     ${clicked}=    Run Keyword And Return Status    Select Window    ${name}
     IF    ${clicked} == ${FALSE}
         Sleep    5s
         Select Window    ${name}
     END
+
+Ebs Get Element Text
+    [Arguments]    ${element}
+    [Return]    ${Text}
+    Application Refresh
+    ${Text}=    RPA.JavaAccessBridge.Get Element Text    role|text and name|${element}
+
+Ebs Close Pop up 
+    [Arguments]    ${name}
+    RPA.Desktop.Press Keys    CTRL    F4
+    Sleep    4s
+
+Ebs Select Menu 
+    [Arguments]    ${menu}    ${menuitem}
+    ${clicked}=    Run KeyWord And Return Status    RPA.JavaAccessBridge.Select Menu    ${menu}    ${menuitem}
+    IF   ${clicked} == ${FALSE}
+        RPA.JavaAccessBridge.Select Menu    ${menu}    ${menuitem}
+    END
+
+Ebs Check Request Status
+    [Arguments]    ${element}
+    Wait For Element Status For Change    ${element}
