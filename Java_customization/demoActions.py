@@ -1,5 +1,4 @@
 from pyjab.jabdriver import JABDriver
-from robot.api.deco import keyword
 import logging
 import time
 import win32api as win32
