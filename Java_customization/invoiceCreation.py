@@ -8,6 +8,8 @@ import win32con as win32con
 import time
 from RPA.Desktop import Desktop
 
+from Java_customization.Allactions import ebsCopyValue
+
 APPLICATION = "Oracle Applications - EBSVIS"
 PATH = "C:\\GitHub\\EBS-Automation-POC\\Driver\\WindowsAccessBridge-64.dll"
 logger = logging.getLogger(__name__)
@@ -224,9 +226,9 @@ if __name__ == '__main__':
     logger.info(f"Clicked Push Button No")
 
     _is_wait_cursor_complete()
-    txt_one = ebs_get_element_text(name)
+    txt_one = ebsCopyValue(name)
     while True :
-        txt_two = ebs_get_element_text(name)
+        txt_two = ebsCopyValue(name)
         if txt_one != txt_two or txt_two == 'Completed' : 
             break
         driver = JABDriver(APPLICATION, PATH)

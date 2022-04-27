@@ -55,22 +55,22 @@ Create Period Close Process
     # RPA.JavaAccessBridge.Type Text    name|Period    FEB-20
     # Click Push Button    Find
 
-    # Print Element Tree    check2.txt
+    Print Element Tree    Requests.txt
     # RPA.Desktop.Press Keys    f4
-    RPA.Desktop.Press Keys    ctrl    l    #search (it will be same for every action)
-    RPA.Desktop.Press Keys    shift    tab
-    RPA.Desktop.Press Keys    backspace
-    RPA.JavaAccessBridge.Type Text    Find    AP Accounting Period
-    Sleep    5s
-    Application Refresh
-    RPA.JavaAccessBridge.Click Push Button    Find
-    Sleep    5s
-    Click Push Button    OK
-    # from step 42 to 46 is going open lager form
-    Sleep    4s
-    Application Refresh
-    RPA.JavaAccessBridge.Type Text    Ledger    RPA_LEDGER2
-    Click Push Button    Find
+    # RPA.Desktop.Press Keys    ctrl    l    #search (it will be same for every action)
+    # RPA.Desktop.Press Keys    shift    tab
+    # RPA.Desktop.Press Keys    backspace
+    # RPA.JavaAccessBridge.Type Text    Find    AP Accounting Period
+    # Sleep    5s
+    # Application Refresh
+    # RPA.JavaAccessBridge.Click Push Button    Find
+    # Sleep    5s
+    # Click Push Button    OK
+    # # from step 42 to 46 is going open lager form
+    # Sleep    4s
+    # Application Refresh
+    # RPA.JavaAccessBridge.Type Text    Ledger    RPA_LEDGER2
+    # Click Push Button    Find
 
 
 

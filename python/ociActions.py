@@ -1,3 +1,5 @@
+from sys import prefix
+from xml.sax.handler import feature_external_ges
 import oci
 from robot.api.deco import keyword
 from io import BytesIO
@@ -31,20 +33,43 @@ def put_object_to_cloud(path, file):
     imagedata = imagefile.getvalue()
 
 
-    # print("Uploading new object {!r}".format(object_name))
+    print("Uploading new object {!r}".format(object_name))
 
-    obj = object_storage.put_object(
+    # obj = object_storage.put_object(
 
-        namespace,
+    #     namespace,
 
-        bucket_name,
+    #     bucket_name,
 
-        object_name,
+    #     object_name,
 
-        imagedata)
+    #     imagedata)
+    print("path: ",path)
+    print("pathName :", path_name)
+    print("prefix: " , path.split('\\')[-1].split('_')[0])
+    listfiles  = object_storage.list_objects(
+        namespace, bucket_name, prefix = path_name
+    )
+    # print(object_name)
+    for filename in listfiles.data.objects:
+        print(filename.name)
+        name = filename.name.split('/')[-1]
+        if name.startswith(path.split('\\')[-1].split('_')[0]):
+            print(name)
+        # try :
+        #     delete_object_response = object_storage.delete_object(
+        #     namespace,
+        #     bucket_name,
+        #     filename.name,
+        #     )
+        #     print(delete_object_response.headers)
+        # except :
+        #     print('delete failed for filename ', filename)
+        
+ 
 
     logger.info(f"Uploaded to {path_name} in oci") 
+    print(f"Uploaded to {path_name} in oci") 
 
-
-# put_object_to_cloud("C:\\EBS-Automation\\WATS_Files\\screenshot\\ebs\\WATS\\TestEBS","1000.jpg")
+put_object_to_cloud("C:\\WATS\\Screenshot\\WATS\\Pyjab Demo Internal\\1_10_Create Purchase Requisition_PTP.PO.2028-Demo1_Pyjab Demo Internal_10_Passed.jpg","1_10_Create Purchase Requisition_PTP.PO.2028-Demo1_Pyjab Demo Internal_10_Passed.jpg")
 
